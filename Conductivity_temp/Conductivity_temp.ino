@@ -1,12 +1,8 @@
 #include "DHT.h"
 
 //************************* User Defined Variables ********************************************************//
- 
- 
+  
 float CalibrationEC=1.38; //EC value of Calibration solution is s/cm
- 
- 
- 
  
 //##################################################################################
 //-----------  Do not Replace R1 with a resistor lower than 300 ohms    ------------
@@ -15,9 +11,9 @@ float CalibrationEC=1.38; //EC value of Calibration solution is s/cm
  
 int R1= 100000;
 int Ra=25; //Resistance of powering Pins
-int ECPin= A4;
-int ECGround=A2;
-int ECPower =A5;
+int ECPin= A0;
+int ECGround=A1;
+int ECPower =A4;
  
  
 //*************Compensating for temperature ************************************//
@@ -29,7 +25,7 @@ float TemperatureCoef = 0.019; //this changes depending on what chemical we are 
  
  
 //************ Temp Probe Related *********************************************//
-#define DHTPIN 3
+#define DHTPIN 5
 #define DHTTYPE DHT11   // DHT 11
 DHT dht(DHTPIN, DHTTYPE);
  
@@ -82,7 +78,7 @@ void loop()
  
  
 //************Estimates Resistance of Liquid ****************//
-  while(i<=10){   
+  while(i<=1  ){   
     digitalWrite(ECPower,HIGH);
     raw= analogRead(ECPin);
     raw= analogRead(ECPin);// This is not a mistake, First reading will be low
@@ -111,7 +107,8 @@ void loop()
   Serial.print(" S  ");  //add units here
   Serial.print("Cell Constant K");
   Serial.print(K);
- 
+  Serial.print("Temp : ");
+  Serial.print(dht.readTemperature());
  
   if (TemperatureStart==TemperatureFinish){
     Serial.println("  Results are Trustworthy");
